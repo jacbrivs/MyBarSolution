@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MBBackend.Common;
+using MBBackend.IServices;
+using MBBackend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +32,10 @@ namespace MBBackend
 
             services.AddSingleton<IConfiguration>(Configuration);
             Global.ConnectionString = Configuration.GetConnectionString("MyBarDb");
+
+            services.AddScoped<IEmpleadoService, EmpleadoService>();
+
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
