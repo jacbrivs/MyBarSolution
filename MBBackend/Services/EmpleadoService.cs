@@ -46,12 +46,57 @@ namespace MBBackend.Services
 
         public string Delete(int EmpleadoId)
         {
-            throw new NotImplementedException();
+            
+            try
+            {
+                using (IDbConnection con = new SqlConnection(Global.ConnectionString))
+                {                                    
+
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                        
+                        var param = new DynamicParameters();
+                        param.Add("@Id", EmpleadoId);
+                        con.Query("usp_DeleteEmpleado", param, commandType: CommandType.StoredProcedure).SingleOrDefault();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _oEmpleado.Error = ex.Message;
+            }
+            return _oEmpleado.Error;
         }
 
         public Empleado Get(int EmpleadoId)
         {
-            throw new NotImplementedException();
+            _oEmpleado = new Empleado();
+
+            try
+            {
+                using (IDbConnection con = new SqlConnection(Global.ConnectionString))
+                {
+
+                    if (con.State == ConnectionState.Closed)con.Open();                                         
+
+                        var param = new DynamicParameters();
+                        param.Add("@Id", EmpleadoId);
+                        var oEmpleado = con.Query<Empleado>("usp_SelectEmpleado", param, commandType: CommandType.StoredProcedure).ToList();
+                    if (oEmpleado != null && oEmpleado.Count() > 0)
+                    {
+                        _oEmpleado = oEmpleado.SingleOrDefault();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _oEmpleado.Error = ex.Message;
+            }
+            return _oEmpleado;
+
         }
 
         public List<Empleado> Gets()

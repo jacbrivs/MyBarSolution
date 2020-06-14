@@ -20,7 +20,7 @@ namespace MBBackend.Controllers
         {
             _oEmpleadoService = oEmpleadoService;
         }
-        
+
         // GET: api/<EmpleadosController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -29,10 +29,12 @@ namespace MBBackend.Controllers
         }
 
         // GET api/<EmpleadosController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "Get")]
+        public Empleado Get(int id)
         {
-            return "value";
+            return _oEmpleadoService.Get(id);                     
+            
+            
         }
 
         // POST api/<EmpleadosController>
@@ -53,6 +55,7 @@ namespace MBBackend.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            if (id != 0) _oEmpleadoService.Delete(id);
         }
     }
 }
