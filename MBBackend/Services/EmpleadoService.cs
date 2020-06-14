@@ -92,7 +92,6 @@ namespace MBBackend.Services
             }
             catch (Exception ex)
             {
-
                 _oEmpleado.Error = ex.Message;
             }
             return _oEmpleado;
@@ -101,7 +100,28 @@ namespace MBBackend.Services
 
         public List<Empleado> Gets()
         {
-            throw new NotImplementedException();
+            _oEmpleados = new List<Empleado>();
+
+            try
+            {
+                using (IDbConnection con = new SqlConnection(Global.ConnectionString))
+                {
+
+                    if (con.State == ConnectionState.Closed) con.Open();
+
+                    var oEmpleados = con.Query<Empleado>("usp_SelectEmpleadosAll", commandType: CommandType.StoredProcedure).ToList();
+                    if (oEmpleados != null && oEmpleados.Count() > 0)
+                    {
+                        _oEmpleados = oEmpleados;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _oEmpleado.Error = ex.Message;
+            }
+            
+            return _oEmpleados;
         }
 
         public Empleado Update(Empleado oEmpleado)

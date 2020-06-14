@@ -23,9 +23,9 @@ namespace MBBackend.Controllers
 
         // GET: api/<EmpleadosController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Empleado> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _oEmpleadoService.Gets();
         }
 
         // GET api/<EmpleadosController>/5
