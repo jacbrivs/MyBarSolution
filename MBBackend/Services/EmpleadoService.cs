@@ -25,11 +25,14 @@ namespace MBBackend.Services
             {
                 using (IDbConnection con = new SqlConnection(Global.ConnectionString))
                 {
-                    //int operationtype = Convert.ToInt32(_oEmpleado.Id == 0 ? OperationType.Add : OperationType.Update);
                     
-                    if (con.State == ConnectionState.Closed) con.Open();                    
-                    var oEmpleados = con.Query<Empleado>("usp_InsertEmpleado", this.setParameters(oEmpleado),
-                        commandType: CommandType.StoredProcedure) ;
+
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                        var oEmpleados = con.Query<Empleado>("usp_InsertEmpleado", this.setParameters(oEmpleado),
+                        commandType: CommandType.StoredProcedure);
+                    }
                 }
             }
             catch (Exception ex)
