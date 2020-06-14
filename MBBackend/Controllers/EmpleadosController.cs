@@ -43,9 +43,10 @@ namespace MBBackend.Controllers
         }
 
         // PUT api/<EmpleadosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public void Put([FromBody] Empleado oEmpleado)
         {
+            if (ModelState.IsValid) _oEmpleadoService.Update(oEmpleado);
         }
 
         // DELETE api/<EmpleadosController>/5

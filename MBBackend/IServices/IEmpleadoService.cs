@@ -12,7 +12,7 @@ namespace MBBackend.IServices
         List<Empleado> Gets();
         Empleado Get(int EmpleadoId);
         string Delete(int EmpleadoId);
-        string Update(int EmpleadoId);
+        Empleado Update(Empleado oEmpleado);
 
     }
 }

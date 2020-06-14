@@ -59,14 +59,37 @@ namespace MBBackend.Services
             throw new NotImplementedException();
         }
 
-        public string Update(int EmpleadoId)
+        public Empleado Update(Empleado oEmpleado)
         {
-            throw new NotImplementedException();
+            _oEmpleado = new Empleado();
+
+            try
+            {
+                using (IDbConnection con = new SqlConnection(Global.ConnectionString))
+                {
+
+
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                        var oEmpleados = con.Query<Empleado>("usp_UpdateEmpleado", this.setParameters(oEmpleado),
+                        commandType: CommandType.StoredProcedure);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _oEmpleado.Error = ex.Message;
+            }
+
+            return _oEmpleado;
         }
 
         private DynamicParameters setParameters(Empleado oEmpleado)
         {
-            DynamicParameters parameters = new DynamicParameters();            
+            DynamicParameters parameters = new DynamicParameters();
+            if (oEmpleado.Id != 0) parameters.Add("@Id", oEmpleado.Id);            
             parameters.Add("@Cedula", oEmpleado.Cedula);
             parameters.Add("@Nombre1", oEmpleado.Nombre1);
             parameters.Add("@Nombre2", oEmpleado.Nombre2);
